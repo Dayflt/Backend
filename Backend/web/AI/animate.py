@@ -4,13 +4,13 @@ from tqdm import tqdm
 import torch
 from torch.utils.data import DataLoader
 
-from AI.frames_dataset import PairedDataset
-from AI.logger import Logger, Visualizer
+from web.AI.frames_dataset import PairedDataset
+from web.AI.logger import Logger, Visualizer
 import imageio
 from scipy.spatial import ConvexHull
 import numpy as np
 
-from AI.sync_batchnorm import DataParallelWithCallback
+from web.AI.sync_batchnorm import DataParallelWithCallback
 
 
 def normalize_kp(kp_source, kp_driving, kp_driving_initial, adapt_movement_scale=False,

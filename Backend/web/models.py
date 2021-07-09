@@ -3,7 +3,7 @@
 
 #from sqlalchemy.sql.elements import Null
 from sqlalchemy.sql.expression import func
-from app import db
+from web import db
 from sqlalchemy import sql
 
 
@@ -26,9 +26,14 @@ class video_table(db.Model):
     
     def serialize(self):
         return {
-            'model_result', self.model_result,
-            'image_no', self.image_no,
-            'model_name', self.model_name,
-            'category_no', self.category_no,
-            'model_date', self.model_date
+            'model_id' : self.model_id,
+            'model_result': self.model_result,
+            'image_no': self.image_no,
+            'model_name': self.model_name,
+            'category_no': self.category_no,
+            'model_date':self.model_date
         }
+    
+    def __repr__(self):
+        return f"<video_table('{self.model_result}','{self.image_no}', '{self.model_name}')>"
+     

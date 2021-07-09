@@ -6,7 +6,6 @@ def path(file, root = os.path.join(os.getcwd(),'web/data/result')):
 import datetime
 
 credential_path = 'dayfly-318913-a4b443321e00.json'
-import os
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(os.getcwd(), credential_path)
 
 bucket_name = 'dayfly-bucket'

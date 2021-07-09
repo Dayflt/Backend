@@ -1,13 +1,18 @@
-from app.models import video_table
+from web.models import video_table
 
 from operator import mod, pos
 
 from flask_sqlalchemy import model
-from app import db
-from sqlalchemy import desc
+from web import db
+from sqlalchemy import desc,sql
 
 DISPLAY_VIDEO=4
+def test_sql1(image_no):
+    db.session.add(image_no)
 
+def test_sql2(image_no):
+    model_idR = db.session.query(video_table.model_id).filter(video_table.image_no == image_no).first()
+    return(model_idR.model_id)
 
 #model id리턴
 def video_insert(model_result, image_no):
@@ -27,18 +32,6 @@ def remove_vid(model_id):
     db.session.delete(remove)
     db.session.commit()
 
-def check_existance(model_id, user_name = False, category_id = False):
-    first_vid = db.session.query(video_table).filter(video_table.model_id==model_id).first()
-    if first_vid != None and not user_name:
-        return False
-    elif user_name:
-        if first_vid['user_name'] and first_vid['category_id']:
-            return True
-    else:
-        return False
-    
-
-from sqlalchemy import sql
 def gallery_info(model_id,model_name,category_no):
     post=db.session.query(video_table).filter(video_table.model_id==model_id).first()
     post.model_name=model_name
@@ -48,6 +41,7 @@ def gallery_info(model_id,model_name,category_no):
 
 def post_gallery_category(category_no):
     video=db.session.query(video_table).filter(video_table.category_no==category_no).order_by(video_table.model_date.desc())
+    print(video.all())
     return video.all()
 
 def gallery_remove_oldvid(model_result):
@@ -62,4 +56,3 @@ def post_gallery(category_no):
     if len(result)>DISPLAY_VIDEO:
         for i in result[DISPLAY_VIDEO:]:
             gallery_remove_oldvid(i)
-    return print(result[:DISPLAY_VIDEO])

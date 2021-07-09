@@ -7,7 +7,7 @@ from imageio import mimread
 import numpy as np
 from torch.utils.data import Dataset
 import pandas as pd
-from AI.augmentation import AllAugmentationTransform
+from web.AI.augmentation import AllAugmentationTransform
 import glob
 
 

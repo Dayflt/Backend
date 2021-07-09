@@ -1,28 +1,33 @@
-from flask import render_template, request, jsonify
+from web.views import post_gallery
+from flask import json, render_template, request, jsonify
 import os
-import views
+from web import views
 # __init__.py 파일에서 정의한 app을 불러옴
-from app import app
+from web import app
 from werkzeug.utils import secure_filename
-from predictmix import generate
+from web.predictmix import generate
 
-from app.models import video_table
+from web.models import video_table
 
 @app.route('/')
 def hello():
-    return "flask start"
+    post_gallery(1)
+    return jsonify({"result" : True})
 
 @app.route('/upload')
 def load_file():
    return render_template('upload.html')
 	
-@app.route('/api/model/<model_id>', methods = ['POST'])
+@app.route('/api/model', methods = ['POST'])
 def upload_file():
    if request.method == 'POST':
       img_name=request.form['img_name']
+      print(img_name)
       f = request.files['file']
+      print(f.filename)
       #print(f.filename) # testvid.mp4
       f.save(secure_filename(f.filename))
+      print('saved')
       
       return mixvideo(img_name,f.filename)
       #return {
@@ -40,6 +45,7 @@ def mixvideo(img_name,file_name):
     
     mixedvid = generate('web/AI/mraa.yaml', 'web/AI/mraa.tar', 'web/AI/img/%s.png' %(str(img_name)), '%s' %(file_name))
     os.remove(os.path.join(os.curdir, file_name))
+    views.video_insert(mixedvid,img_name)
 
     if not mixedvid:
         return '', 404
@@ -60,32 +66,28 @@ def return_result(model_id):
 
     elif request.method == 'DELETE':
         views.remove_vid(model_id)
-        if views.check_existance(model_id):
-            return jsonify({'success' : True})
-        else:
-            return jsonify({'success' : False})
+        return jsonify({'success' : True})
     else:
         f = request.get_json()
+        print(f)
         user_name, category_id = f['user_name'], f['category_id']
         views.gallery_info(model_id, user_name, category_id)
-        if views.check_existance(model_id, user_name, category_id):
-            return jsonify({{'success' : True}})
-        else:
-            return jsonify({'success' : False})
-        
+        return jsonify({"success" : True})
         
 @app.route('/model/gallery/<category_no>', methods = ['GET'])
-def getby_emoji():
-    f = request.get_json()['category_no']
-    datas = views.post_gallery_category(f) #list형태로 반환
+def getby_emoji(category_no):
+    datas = views.post_gallery_category(category_no) #list형태로 반환
     result = []
-    num = datas.count()
+    num = len(datas)
     if num < 4:
         for n in range(num):
             video = datas[n]
+            print(video)
             result.append(video.serialize())
     else:
+        post_gallery(category_no)
         for n in range(4):
             video = datas[n]
             result.append(video.serialize())
-    return jsonify(result)
+    #print(result)
+    return json.dumps(result)

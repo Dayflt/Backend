@@ -1,7 +1,7 @@
 from torch import nn
 import torch
 import torch.nn.functional as F
-from AI.modules.util import Hourglass, make_coordinate_grid, AntiAliasInterpolation2d
+from web.AI.modules.util import Hourglass, make_coordinate_grid, AntiAliasInterpolation2d
 
 
 class KPDetector(nn.Module):

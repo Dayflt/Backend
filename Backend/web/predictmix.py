@@ -1,8 +1,8 @@
-from AI.demo import make_animation, load_checkpoints
+from web.AI.demo import make_animation, load_checkpoints
 import imageio
 from skimage.transform import resize
 from skimage import img_as_ubyte
-from gcp import upload_vid
+from web.gcp import upload_vid
 import os
 
 def generate(config_path, cp_path , source_img, driving_video):
