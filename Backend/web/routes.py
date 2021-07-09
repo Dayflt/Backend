@@ -6,13 +6,13 @@ from web import views
 from web import app
 from werkzeug.utils import secure_filename
 from web.predictmix import generate
-
-from web.models import video_table
+from errors import *
+from sqlalchemy.exc import *
+from sqlalchemy.orm.exc import *
 
 @app.route('/')
 def hello():
-    post_gallery(1)
-    return jsonify({"result" : True})
+    return "Run Flask"
 
 @app.route('/upload')
 def load_file():
@@ -22,14 +22,10 @@ def load_file():
 def upload_file():
    if request.method == 'POST':
       img_name=request.form['img_name']
-      print(img_name)
       f = request.files['file']
-      print(f.filename)
-      #print(f.filename) # testvid.mp4
       f.save(secure_filename(f.filename))
-      print('saved')
       
-      return mixvideo(img_name,f.filename)
+      return mixvideo(img_name, f.filename)
       #return {
        #  'file uploaded successfully':img_name,
         # 'file name': file_name}
@@ -58,36 +54,48 @@ def mixvideo(img_name,file_name):
 @app.route('/api/model/<model_id>', methods = ['GET', 'DELETE', 'POST'])
 def return_result(model_id):
     if request.method == 'GET':
-        result_url = views.get_video_url(model_id)
-        if result_url:
-            return jsonify({'success' : True, 'model_result' : result_url})
-        else:
-            return jsonify({'success' : False, 'model_result' :  None})
+        try:
+            result_url = views.get_video_url(model_id)
+            if result_url:
+                return jsonify({'success' : True, 'model_result' : result_url})
+        except NoResultFound:
+            raise NoModelFound
+        except Exception:
+            raise InternalServerError
 
     elif request.method == 'DELETE':
-        views.remove_vid(model_id)
-        return jsonify({'success' : True})
+        try:
+            views.remove_vid(model_id)
+            return jsonify({'success' : True})
+        except NoResultFound:
+            raise NoModelFound
     else:
-        f = request.get_json()
-        print(f)
-        user_name, category_id = f['user_name'], f['category_id']
-        views.gallery_info(model_id, user_name, category_id)
-        return jsonify({"success" : True})
-        
+        try:
+            f = request.get_json()
+            user_name, category_id = f['user_name'], f['category_id']
+            views.gallery_info(model_id, user_name, category_id)
+            return jsonify({"success" : True})
+        except:
+            raise InternalServerError
+
 @app.route('/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
-    datas = views.post_gallery_category(category_no) #list형태로 반환
-    result = []
-    num = len(datas)
-    if num < 4:
-        for n in range(num):
-            video = datas[n]
-            print(video)
-            result.append(video.serialize())
-    else:
-        post_gallery(category_no)
-        for n in range(4):
-            video = datas[n]
-            result.append(video.serialize())
-    #print(result)
-    return json.dumps(result)
+    try:
+        datas = views.post_gallery_category(category_no) #list형태로 반환
+        result = []
+        num = len(datas)
+        if num < 4:
+            for n in range(num):
+                video = datas[n]
+                print(video)
+                result.append(video.serialize())
+        else:
+            post_gallery(category_no)
+            for n in range(4):
+                video = datas[n]
+                result.append(video.serialize())
+        return json.dumps(result)
+    except NoSuchColumnError:
+        raise CategoryNotFound 
+    except Exception:
+        raise InternalServerError

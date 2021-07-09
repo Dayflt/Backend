@@ -3,6 +3,9 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_restful import Api
+
+import errors as errors
 
 
 
@@ -11,6 +14,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY']='thisisfirstflaskapp'
 app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:1111@localhost/video'
 app.config['FLASK_APP'] = '__init__.py'
+
+api = Api(app, errors = errors)
 db=SQLAlchemy(app)
 
 from web import routes

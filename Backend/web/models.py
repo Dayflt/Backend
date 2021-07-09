@@ -1,7 +1,3 @@
-#models.py
-#from operator import mod
-
-#from sqlalchemy.sql.elements import Null
 from sqlalchemy.sql.expression import func
 from web import db
 from sqlalchemy import sql

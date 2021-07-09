@@ -16,6 +16,8 @@ def test_sql2(image_no):
 
 #model id리턴
 def video_insert(model_result, image_no):
+    "model_id return + insert video url to db"
+
     video_temp=video_table(model_result, image_no)
     db.session.add(video_temp)
     db.session.commit()
@@ -24,15 +26,18 @@ def video_insert(model_result, image_no):
 
 
 def get_video_url(model_id):
+    "gets model_result from model_id"
     a= db.session.query(video_table).filter(video_table.model_id==model_id).first()
     return a.model_result
 
 def remove_vid(model_id):
+    "removes video from model_id"
     remove=db.session.query(video_table).filter(video_table.model_id==model_id).first()
     db.session.delete(remove)
     db.session.commit()
 
 def gallery_info(model_id,model_name,category_no):
+    "uploads information for uploading video on gallery"
     post=db.session.query(video_table).filter(video_table.model_id==model_id).first()
     post.model_name=model_name
     post.category_no=category_no
@@ -40,16 +45,19 @@ def gallery_info(model_id,model_name,category_no):
     db.session.commit()
 
 def post_gallery_category(category_no):
+    "returns info about 4(or less) videos based on category_no"
     video=db.session.query(video_table).filter(video_table.category_no==category_no).order_by(video_table.model_date.desc())
     print(video.all())
     return video.all()
 
 def gallery_remove_oldvid(model_result):
+    "removes the old video of such model_result"
     remove=db.session.query(video_table).filter(video_table.model_result==model_result).first()
     db.session.delete(remove)
     db.session.commit()
 
 def post_gallery(category_no):
+    "based on the category_no remove video except for the recent 4 videos"
     result=[]
     for instance in db.session.query(video_table).filter(video_table.category_no==category_no).order_by(video_table.model_date.desc()):
         result.append(instance.model_result)
