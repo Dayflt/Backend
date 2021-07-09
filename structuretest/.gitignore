@@ -1,0 +1,19 @@
+__pycache__
+
+# Distribution / packaging
+.Python
+env/
+build/
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# dotenv
+.env
