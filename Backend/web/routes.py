@@ -11,8 +11,13 @@ from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
 
 @app.route('/')
+<<<<<<< HEAD
 def hello():
     return "Run Flask"
+=======
+def test():
+    return 'flask start'
+>>>>>>> main
 
 @app.route('/upload')
 def load_file():
@@ -23,15 +28,19 @@ def upload_file():
    if request.method == 'POST':
       img_name=request.form['img_name']
       f = request.files['file']
+<<<<<<< HEAD
       f.save(secure_filename(f.filename))
       
       return mixvideo(img_name, f.filename)
+=======
+      f.save(secure_filename(f.filename))      
+      return mixvideo(img_name,f.filename)
+>>>>>>> main
       #return {
        #  'file uploaded successfully':img_name,
         # 'file name': file_name}
 
 # AI모델 결과물 생성
-##@app.route('/model/<image_no>', methods = ['POST'])
 def mixvideo(img_name,file_name):
     #data = request.json
     # 사용자의 캡쳐 영상의 저장소의 url 주소 -> imageio.getreader()을 이용해서 영상을 읽어줌
@@ -50,6 +59,7 @@ def mixvideo(img_name,file_name):
         'success' :  True,
         'file' : 'Received',
         'model_result' : mixedvid})
+
 
 @app.route('/api/model/<model_id>', methods = ['GET', 'DELETE', 'POST'])
 def return_result(model_id):
@@ -70,6 +80,7 @@ def return_result(model_id):
         except NoResultFound:
             raise NoModelFound
     else:
+<<<<<<< HEAD
         try:
             f = request.get_json()
             user_name, category_id = f['user_name'], f['category_id']
@@ -99,3 +110,26 @@ def getby_emoji(category_no):
         raise CategoryNotFound 
     except Exception:
         raise InternalServerError
+=======
+        f = request.get_json()
+        user_name, category_id = f['user_name'], f['category_id']
+        views.gallery_info(model_id, user_name, category_id)
+        return jsonify({"success" : True})
+        
+        
+@app.route('/api/model/gallery/<category_no>', methods = ['GET'])
+def getby_emoji(category_no):
+    datas = views.post_gallery_category(category_no) #list형태로 반환
+    result = []
+    num = len(datas)
+    if num < 4:
+        for n in range(num):
+            video = datas[n]
+            result.append(video.serialize())
+    else:
+        post_gallery(category_no)
+        for n in range(4):
+            video = datas[n]
+            result.append(video.serialize())
+    return json.dumps(result)
+>>>>>>> main
