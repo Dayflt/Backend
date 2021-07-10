@@ -34,7 +34,8 @@ def generate(config_path, cp_path , source_img, driving_video):
         generator = model_gen, kp_detector = model_kp, relative = True, adapt_movement_scale = True, cpu = True)
     vid = [img_as_ubyte(frame) for frame in vid]
     # numpy array -> mp4
-    imageio.mimsave(os.path.join(os.getcwd(),'web/data/result/%smixed.mp4'%vid_name), vid, fps=fps)
+
     vid_name=vid_name+str(math.ceil(random.random()*100000))
+    imageio.mimsave(os.path.join(os.getcwd(),'web/data/result/%smixed.mp4'%vid_name), vid, fps=fps)
     # 동영상의 url 반환
     return(upload_vid('%smixed.mp4'%vid_name))
