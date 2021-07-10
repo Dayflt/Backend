@@ -3,7 +3,7 @@ import imageio
 from skimage.transform import resize
 from skimage import img_as_ubyte
 from web.gcp import upload_vid
-import os
+import os, math, random
 
 def generate(config_path, cp_path , source_img, driving_video):
     vid_name = driving_video.split('.')[0]
@@ -35,5 +35,6 @@ def generate(config_path, cp_path , source_img, driving_video):
     vid = [img_as_ubyte(frame) for frame in vid]
     # numpy array -> mp4
     imageio.mimsave(os.path.join(os.getcwd(),'web/data/result/%smixed.mp4'%vid_name), vid, fps=fps)
+    vid_name=vid_name+str(math.ceil(random.random()*100000))
     # 동영상의 url 반환
     return(upload_vid('%smixed.mp4'%vid_name))
