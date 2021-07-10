@@ -1,11 +1,10 @@
 from web.views import post_gallery
 from flask import json, render_template, request, jsonify
-import os
 from web import views
 # __init__.py 파일에서 정의한 app을 불러옴
 from web import app
 from werkzeug.utils import secure_filename
-from web.predictmix import generate
+from web.predictmix import *
 from errors import *
 from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
@@ -36,8 +35,10 @@ def mixvideo(img_name,file_name):
     # 캡쳐된 영상은 코드 디렉토리에 저장
     
     mixedvid = generate('web/AI/mraa.yaml', 'web/AI/mraa.tar', 'web/AI/img/%s.png' %(str(img_name)), '%s' %(file_name))
-    os.remove(os.path.join(os.curdir, file_name))
+    del_vid(file_name, True)
+    print('deleted cap')
     views.video_insert(mixedvid,img_name)
+    print('deleted mix')
 
     if not mixedvid:
         return '', 404
