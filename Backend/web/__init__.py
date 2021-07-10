@@ -8,6 +8,7 @@ import errors as errors
 
 app = Flask(__name__)
 api = Api(app, errors = errors)
+
 db=SQLAlchemy(app)
 app.config.from_pyfile('config.py')
 

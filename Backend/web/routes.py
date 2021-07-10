@@ -68,6 +68,7 @@ def return_result(model_id):
         except NoResultFound:
             raise NoModelFound
     else:
+
         try:
             f = request.get_json()
             user_name, category_id = f['user_name'], f['category_id']

@@ -20,3 +20,6 @@ celerybeat-schedule
 
 #mraa.tar
 *.tar
+
+#.mp4(data result)
+*.mp4
