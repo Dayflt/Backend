@@ -3,10 +3,14 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-app = Flask(__name__)
+from flask_restful import Api
+import errors as errors
 
-app.config.from_pyfile('config.py')
+app = Flask(__name__)
+api = Api(app, errors = errors)
+
 db=SQLAlchemy(app)
+app.config.from_pyfile('config.py')
 
 from web import routes
 
