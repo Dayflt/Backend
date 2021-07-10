@@ -26,7 +26,7 @@ def upload_vid(destination_blob_name):
 
     blob.upload_from_filename(path('%s'%(destination_blob_name)))
     blob.make_public
-    print(blob.public_url)
+    #print(blob.public_url)
     return blob.public_url
 
 

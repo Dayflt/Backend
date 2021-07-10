@@ -21,7 +21,6 @@ def load_file():
 def upload_file():
    if request.method == 'POST':
       img_name=request.form['img_name']
-      print(img_name)
       f = request.files['file']
       f.save(secure_filename(f.filename))      
       return mixvideo(img_name,f.filename)
@@ -68,7 +67,7 @@ def return_result(model_id):
         views.gallery_info(model_id, user_name, category_id)
         return jsonify({"success" : True})
         
-        
+
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
     datas = views.post_gallery_category(category_no) #list형태로 반환
