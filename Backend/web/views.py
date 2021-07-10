@@ -11,7 +11,7 @@ DISPLAY_VIDEO=4
 #사용자로부터 영상을 받았을 때 db 저장, model id리턴
 def video_insert(model_result, image_no):
     "model_id return + insert video url to db"
-    video_temp=video_table(model_result, image_no)
+    video_temp=video_table(model_result,image_no)
     db.session.add(video_temp)
     db.session.commit()
     model_idR=db.session.query(video_table.model_id).filter(video_table.model_result==model_result).first()
