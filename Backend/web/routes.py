@@ -53,7 +53,7 @@ def mixvideo(img_name,file_name):
     })
 
 
-@app.route('/api/model/<model_id>', methods = ['GET', 'DELETE', 'POST'])
+@app.route('/api/model/<model_id>', methods = ['GET', 'DELETE', 'PATCH'])
 def return_result(model_id):
     if request.method == 'GET':
         try:
@@ -71,8 +71,7 @@ def return_result(model_id):
             return jsonify({'success' : True})
         except NoResultFound:
             raise NoModelFound
-    else:
-
+    elif request.method=='PATCH':
         try:
             f = request.get_json()
             user_name, category_id = f['user_name'], f['category_id']
