@@ -1,6 +1,4 @@
-from sqlalchemy.sql.expression import func
 from web import db
-from sqlalchemy import sql
 
 
 class video_table(db.Model):

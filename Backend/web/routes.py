@@ -20,7 +20,7 @@ def load_file():
 @app.route('/api/model', methods = ['POST'])
 def upload_file():
    if request.method == 'POST':
-      img_name=request.form['img_name']
+      img_name=request.form['image_no']
       f = request.files['file']
       f.save(secure_filename(f.filename))
 
