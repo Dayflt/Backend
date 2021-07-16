@@ -75,6 +75,8 @@ def return_result(model_id):
         try:
             f = request.get_json()
             user_name, category_id = f['user_name'], f['category_id']
+            if views.check_overlap(user_name)==False:
+                return jsonify({"success":False})
             views.gallery_info(model_id, user_name, category_id)
             return jsonify({"success" : True})
         except:
@@ -85,6 +87,7 @@ def getby_emoji(category_no):
     try:
         datas = views.post_gallery_category(category_no) #list형태로 반환
         result = []
+        num=len(datas)
         print(num)
         if num < 4:
             for n in range(num):

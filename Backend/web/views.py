@@ -35,6 +35,13 @@ def remove_vid(model_id):
     db.session.delete(remove)
     db.session.commit()
 
+def check_overlap(model_name):
+    "check username doesn't overlap"
+    if (db.session.query(video_table).filter(video_table.model_name==model_name).first())==None:
+        return True
+    else:
+        return False
+
 #사용자가 gallery에 disply 원할 경우 닉네임(model_name), category_no입력받아 해당 model_id db에 저장
 def gallery_info(model_id,model_name,category_no):
     "uploads information for uploading video on gallery"
@@ -66,3 +73,4 @@ def post_gallery(category_no):
     if len(result)>DISPLAY_VIDEO:
         for i in result[DISPLAY_VIDEO:]:
             gallery_remove_oldvid(i)
+
