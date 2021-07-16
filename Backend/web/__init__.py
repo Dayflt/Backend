@@ -6,10 +6,10 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
 import errors as errors
 from flask_swagger_ui import get_swaggerui_blueprint
-from flask_cors import CORS
+from flask_cors import CORS,cross_origin
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app,resources={r"*": {"origins": "*"}},supports_credentials=True)
 api = Api(app, errors = errors)
 app.config.from_pyfile('config.py')
 db=SQLAlchemy(app)
