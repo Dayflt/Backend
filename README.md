@@ -8,7 +8,7 @@ $ git clone https://github.com/Dayflt/Backend_repo.git
 ### 2. Download file
 - Download *vox-cpk.pth.tar* [here](https://drive.google.com/drive/folders/1PyQJmkdCsAkOYwUyaj_l-l0as-iLDgeH) and add it inside Docker\Backend\web\AI\ after changing its name with *mraa.tar*
 
-### 3. Make Virtualenv & Download Requirements
+### 3. Make Virtual Environment & Download Requirements
 + Go to *Backend-repo/Backend* directory
 ```
 cd Backend
