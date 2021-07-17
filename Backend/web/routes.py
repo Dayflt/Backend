@@ -55,9 +55,8 @@ def mixvideo(img_name,file_name):
 
 class API_model_id(Exception):
     pass
-
 @app.errorhandler(API_model_id)
-def error2(e):
+def error(e):
     return jsonify({
         "success":False,
         "message":"문제 발생"
@@ -108,15 +107,25 @@ def return_result(model_id):
         except Exception:
             raise API_model_id
 
+class API_model_category_no(Exception):
+    pass
+@app.errorhandler(API_model_category_no)
+def error(e):
+    return jsonify({
+        "success":False,
+        "message":"문제 발생!!!"
+    })
+
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
 
     if 0>int(category_no) or int(category_no)>4:
-        return jsonify({
-            "success": False,
-            "message": "wrong category_no",
-            "status":500
-        })
+        raise API_model_category_no
+        #return jsonify({
+        #    "success": False,
+        #    "message": "wrong category_no",
+        #    "status":500
+        #})
 
     try:
         datas = views.post_gallery_category(category_no) #list형태로 반환
@@ -136,7 +145,7 @@ def getby_emoji(category_no):
                 result.append(video.serialize())
         return json.dumps(result)
     except Exception:
-        raise InternalServerError
+        raise API_model_category_no
         
         
 
