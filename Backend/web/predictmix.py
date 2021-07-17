@@ -3,7 +3,6 @@ import imageio
 from skimage.transform import resize
 from skimage import img_as_ubyte
 from web.gcp import upload_vid
-
 from web.views import *
 import os, math, random
 
