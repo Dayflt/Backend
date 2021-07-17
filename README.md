@@ -13,11 +13,13 @@ $ git clone https://github.com/Dayflt/Backend_repo.git
 $ pip install virtualenv
 $ virtualenv myenv # make virtual environment
 $ .\myenv\Scripts\activate
-#(myenv) 가상환경 진입 확인
+```
+(myenv) 가상환경 진입 확인
+```
 $ pip install -r requirements.txt #install requirements
 ```
 
-## SWAGGER
+## 📗 SWAGGER
 ![20210717_195035](https://user-images.githubusercontent.com/79822913/126034610-20bff471-7e80-48c8-88f8-c30e28dfd37d.png)
 
 ## 🔧 Directory Structure
