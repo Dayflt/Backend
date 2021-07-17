@@ -14,22 +14,27 @@ $ git clone https://github.com/Dayflt/Backend_repo.git
 cd Backend
 ```
 + Make virtual environment
-+ After that, check if you are in virtual environment   
-  (myenv) ~/Backend_repo/Backend
 ```
 $ pip install virtualenv
 $ virtualenv myenv # make virtual environment
+```
++ Activate virtual environment
+```
 $ .\myenv\Scripts\activate
 ```
 + Install requirements.txt
 ```
-$ pip install -r requirements.txt #install requirements
+(myenv) $ pip install -r requirements.txt #install requirements
+```
++ If you want to deactivate
+```
+(myenv) $ deactivate
 ```
 
 ### 4. RUN
 + Run Flask
 ```
-$ python run.py run
+(myenv) $ python run.py run
 ```
 
 ## 📗 SWAGGER
