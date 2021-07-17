@@ -126,7 +126,7 @@ def return_result(model_id):
 def getby_emoji(category_no):
 
     if 0>int(category_no) or int(category_no)>4:
-        abort(500,"wrong category_no")
+        abort(500,"wrong category_no. Request is wrong")
         #return jsonify({
         #    "success": False,
         #    "message": "wrong category_no",
@@ -151,7 +151,7 @@ def getby_emoji(category_no):
                 result.append(video.serialize())
         return json.dumps(result)
     except Exception:
-        raise API_model_category_no
+        raise abort(500)
         
         
 
