@@ -75,8 +75,21 @@ def return_result(model_id):
 
     elif request.method=='PATCH':
         try:
+            if (request.get_json()==None):
+                return jsonify({
+                    "success":False,
+                    "message":"there is no request",
+                    "status":500
+                })
             f = request.get_json()
-            user_name, category_id = f['model_name'], f['category_no']
+            try:
+                user_name, category_id = f['model_name'], f['category_no']
+            except:
+                return jsonify({
+                    "success":False,
+                    "message":"wrong request(Key error)",
+                    "status":500
+                })
             if views.gallery_info(model_id, user_name, category_id):
                 return jsonify({"success" : True})
             else:
