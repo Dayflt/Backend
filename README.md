@@ -21,6 +21,7 @@ $ pip install -r requirements.txt #install requirements
 ![20210717_195035](https://user-images.githubusercontent.com/79822913/126034610-20bff471-7e80-48c8-88f8-c30e28dfd37d.png)
 
 ## 🔧 Directory Structure
+```bash
 ├── Backend/             - 백엔드 플라스크 디렉토리
     ├── errors.py
     ├── run.py                
@@ -40,3 +41,4 @@ $ pip install -r requirements.txt #install requirements
          ├── views.py
          └── static/
                └── swagger.json 
+ ```
