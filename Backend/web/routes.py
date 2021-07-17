@@ -121,21 +121,12 @@ def return_result(model_id):
         except:
             abort(500,"something wrong")
 
-class API_model_category_no(Exception):
-    pass
-@app.errorhandler(API_model_category_no)
-def error(e):
-    return jsonify({
-        "success":False,
-        "message":"문제 발생!!!"
-    })
-
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
 
     if 0>int(category_no) or int(category_no)>4:
-        raise API_model_category_no
+        abort(500,"wrong category_no")
         #return jsonify({
         #    "success": False,
         #    "message": "wrong category_no",
