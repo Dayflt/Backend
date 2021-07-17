@@ -62,6 +62,12 @@ def error(e):
         "message":"문제 발생"
     })
 
+
+@app.errorhandler(500)
+def custom400(error):
+    return jsonify({'message': error.description})
+
+
 @app.route('/api/model/<model_id>', methods = ['GET', 'DELETE', 'PATCH'])
 def return_result(model_id):
     if request.method == 'GET':
@@ -104,8 +110,8 @@ def return_result(model_id):
                 return jsonify({"success" : True})
             else:
                 return jsonify({"success" : False})
-        except Exception:
-            raise API_model_id
+        except:
+            abort(500,"dd")
 
 class API_model_category_no(Exception):
     pass
@@ -115,6 +121,7 @@ def error(e):
         "success":False,
         "message":"문제 발생!!!"
     })
+
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
