@@ -13,12 +13,15 @@ $ git clone https://github.com/Dayflt/Backend_repo.git
 ```
 cd Backend
 ```
++ Make virtual environment
++ After that, check if you are in virtual environment   
+  (myenv) ~/Backend_repo/Backend
 ```
 $ pip install virtualenv
 $ virtualenv myenv # make virtual environment
 $ .\myenv\Scripts\activate
 ```
-+ (myenv) Make sure you are in virtual environment
++ Install requirements.txt
 ```
 $ pip install -r requirements.txt #install requirements
 ```
