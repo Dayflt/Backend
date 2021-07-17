@@ -11,32 +11,6 @@
         "description": "My API"
       }
     ],
-    "tags": [
-      {
-        "name": "model_id",
-        "description": "model_id primary key"
-      },
-      {
-        "name": "image_no",
-        "description": "user select image"
-      },
-      {
-        "name": "model_result",
-        "description": "model url(in gcp)"
-      },
-      {
-        "name": "model_name",
-        "description": "user's nickname"
-      },
-      {
-        "name": "category_no",
-        "description": "display it to gallery"
-      },
-      {
-        "name": "model_date",
-        "description": "generate date"
-      }
-    ],
     "paths": {
       "/api/model": {
         "post": {
