@@ -1,5 +1,5 @@
 from web.models import video_table
-
+from sqlalchemy.sql.elements import Null
 from operator import mod, pos
 
 from flask_sqlalchemy import model
@@ -26,6 +26,8 @@ def get_model_id(model_result):
 def get_video_url(model_id):
     "gets model_result from model_id"
     a= db.session.query(video_table).filter(video_table.model_id==model_id).first()
+    if a == Null:
+        return False
     return a.model_result
 
 #model_id받았을 때 해당 db삭제
