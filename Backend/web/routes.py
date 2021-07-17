@@ -6,7 +6,7 @@ from web import views
 from web import app
 from werkzeug.utils import secure_filename
 from web.predictmix import *
-from errors import *
+from errors import InternalServerError
 from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
 
