@@ -43,13 +43,17 @@ def mixvideo(img_name,file_name):
     if not mixedvid:
         return '', 404
 
+    #return jsonify({
+    #    'success' :  True,
+    #    'file' : 'Received',
+    #    'model_result' : mixedvid})
     return jsonify({
-        'success' :  True,
-        'file' : 'Received',
-        'model_result' : mixedvid})
+        'success':True,
+        'model_id':views.get_model_id(mixedvid)
+    })
 
 
-@app.route('/api/model/<model_id>', methods = ['GET', 'DELETE', 'POST'])
+@app.route('/api/model/<model_id>', methods = ['GET', 'DELETE', 'PATCH'])
 def return_result(model_id):
     if request.method == 'GET':
         try:
@@ -67,11 +71,12 @@ def return_result(model_id):
             return jsonify({'success' : True})
         except NoResultFound:
             raise NoModelFound
-    else:
-
+    elif request.method=='PATCH':
         try:
             f = request.get_json()
             user_name, category_id = f['user_name'], f['category_id']
+            if views.check_overlap(user_name)==False:
+                return jsonify({"success":False})
             views.gallery_info(model_id, user_name, category_id)
             return jsonify({"success" : True})
         except:
@@ -82,6 +87,7 @@ def getby_emoji(category_no):
     try:
         datas = views.post_gallery_category(category_no) #list형태로 반환
         result = []
+
         num = len(datas)
         if num < 4:
             for n in range(num):

@@ -17,6 +17,11 @@ def video_insert(model_result, image_no):
     model_idR=db.session.query(video_table.model_id).filter(video_table.model_result==model_result).first()
     return model_idR.model_id
 
+def get_model_id(model_result):
+    "get model_id form model_result"
+    id=db.session.query(video_table).filter(video_table.model_result==model_result).first()
+    return id.model_id
+
 #model_id받았을 때 result결과 주소 반환
 def get_video_url(model_id):
     "gets model_result from model_id"
@@ -29,6 +34,13 @@ def remove_vid(model_id):
     remove=db.session.query(video_table).filter(video_table.model_id==model_id).first()
     db.session.delete(remove)
     db.session.commit()
+
+def check_overlap(model_name):
+    "check username doesn't overlap"
+    if (db.session.query(video_table).filter(video_table.model_name==model_name).first())==None:
+        return True
+    else:
+        return False
 
 #사용자가 gallery에 disply 원할 경우 닉네임(model_name), category_no입력받아 해당 model_id db에 저장
 def gallery_info(model_id,model_name,category_no):
@@ -61,3 +73,4 @@ def post_gallery(category_no):
     if len(result)>DISPLAY_VIDEO:
         for i in result[DISPLAY_VIDEO:]:
             gallery_remove_oldvid(i)
+
