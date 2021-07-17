@@ -9,14 +9,24 @@ $ git clone https://github.com/Dayflt/Backend_repo.git
 - Download *vox-cpk.pth.tar* [here](https://drive.google.com/drive/folders/1PyQJmkdCsAkOYwUyaj_l-l0as-iLDgeH) and add it inside Docker\Backend\web\AI\ after changing its name with *mraa.tar*
 
 ### 3. Make Virtualenv & Download Requirements
++ Go to *Backend-repo/Backend* directory
+```
+cd Backend
+```
 ```
 $ pip install virtualenv
 $ virtualenv myenv # make virtual environment
 $ .\myenv\Scripts\activate
 ```
-(myenv) 가상환경 진입 확인
++ (myenv) Make sure you are in virtual environment
 ```
 $ pip install -r requirements.txt #install requirements
+```
+
+### 4. RUN
++ Run Flask
+```
+$ python run.py run
 ```
 
 ## 📗 SWAGGER
@@ -25,16 +35,16 @@ $ pip install -r requirements.txt #install requirements
 ## 🔧 Directory Structure
 ```bash
 ├── Backend/             - 백엔드 플라스크 디렉토리
-    ├── errors.py
-    ├── run.py                
+    ├── errors.py        - 에러 발생시 
+    ├── run.py             -Flask 실행 위한 파일
     ├── views.py               - SQLAlchamy의 기능을 정의한 파일
-    ├── .flaskenv
+    ├── .flaskenv           -Flask 실행을 위한 환경변수 설정 파일
     ├── dayfly-318913-a4b443321e00.json         
     ├── requirements.txt     - 모듈들을 정리한 파일
     └── web/
          ├── AI/                  - AI모델 알고리즘
          ├── data/result/         - 백엔드 동영상 임시 저장 디렉토리
-         ├── __init__.py
+         ├── __init__.py        
          ├── config.py
          ├── gcp.py
          ├── models.py
@@ -42,5 +52,5 @@ $ pip install -r requirements.txt #install requirements
          ├── routes.py
          ├── views.py
          └── static/
-               └── swagger.json 
+               └── swagger.json     -swagger 정의 파일
  ```
