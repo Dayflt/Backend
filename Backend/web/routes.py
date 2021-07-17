@@ -1,6 +1,6 @@
 from sqlalchemy.sql.elements import Null
 from web.views import post_gallery
-from flask import json, render_template, request, jsonify
+from flask import json, render_template, request, jsonify, abort
 from web import views
 # __init__.py 파일에서 정의한 app을 불러옴
 from web import app
@@ -17,7 +17,8 @@ def hello():
 @app.route('/upload')
 def load_file():
    return render_template('upload.html')
-	
+
+
 @app.route('/api/model', methods = ['POST'])
 def upload_file():
    if request.method == 'POST':
@@ -94,11 +95,8 @@ def return_result(model_id):
                 return jsonify({"success" : True})
             else:
                 return jsonify({"success" : False})
-        except:
-            return jsonify({
-                "success":False,
-                "message":""
-            })
+        except Exception:
+            raise InternalServerError
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
