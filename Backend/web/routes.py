@@ -61,11 +61,19 @@ def error(e):
         "success":False,
         "message":"문제 발생"
     })
-
+@app.errorhandler(API_model_id)
+def error2(e):
+    return jsonify({
+        "success":False,
+        "message":"문제 발생"
+    })
 
 @app.errorhandler(500)
-def custom400(error):
-    return jsonify({'message': error.description})
+def error500(error):
+    return jsonify({
+        'success':False,
+        'message': error.description
+    })
 
 
 @app.route('/api/model/<model_id>', methods = ['GET', 'DELETE', 'PATCH'])
@@ -111,7 +119,7 @@ def return_result(model_id):
             else:
                 return jsonify({"success" : False})
         except:
-            abort(500,"dd")
+            abort(500,"something wrong")
 
 class API_model_category_no(Exception):
     pass
