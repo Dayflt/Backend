@@ -87,18 +87,29 @@ def return_result(model_id):
             except:
                 return jsonify({
                     "success":False,
-                    "message":"wrong request(Key error)",
+                    "message":"wrong request(there is no model_name or category_no",
                     "status":500
                 })
             if views.gallery_info(model_id, user_name, category_id):
                 return jsonify({"success" : True})
             else:
                 return jsonify({"success" : False})
-        except Exception:
-            raise InternalServerError
+        except:
+            return jsonify({
+                "success":False,
+                "message":""
+            })
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
+
+    if 0>int(category_no) or int(category_no)>4:
+        return jsonify({
+            "success": False,
+            "message": "wrong category_no",
+            "status":500
+        })
+
     try:
         datas = views.post_gallery_category(category_no) #list형태로 반환
         result = []
