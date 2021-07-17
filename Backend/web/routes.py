@@ -1,3 +1,4 @@
+from sqlalchemy.sql.elements import Null
 from web.views import post_gallery
 from flask import json, render_template, request, jsonify
 from web import views
@@ -41,12 +42,10 @@ def mixvideo(img_name,file_name):
     print('deleted mix')
 
     if not mixedvid:
-        return '', 404
-
-    #return jsonify({
-    #    'success' :  True,
-    #    'file' : 'Received',
-    #    'model_result' : mixedvid})
+        return jsonify({
+            'success' :  False,
+            'model_id' : Null
+        })
     return jsonify({
         'success':True,
         'model_id':views.get_model_id(mixedvid)
@@ -60,26 +59,29 @@ def return_result(model_id):
             result_url = views.get_video_url(model_id)
             if result_url:
                 return jsonify({'success' : True, 'model_result' : result_url})
-        except NoResultFound:
-            raise NoModelFound
+            else:
+                return jsonify({'success' :  False, 'model_result': Null})
         except Exception:
             raise InternalServerError
 
     elif request.method == 'DELETE':
         try:
             views.remove_vid(model_id)
+            if views.get_video_url(model_id) == False:
+                return jsonify({'success' : True})
             return jsonify({'success' : True})
-        except NoResultFound:
-            raise NoModelFound
+        except Exception:
+            raise InternalServerError
+
     elif request.method=='PATCH':
         try:
             f = request.get_json()
             user_name, category_id = f['user_name'], f['category_id']
-            if views.check_overlap(user_name)==False:
-                return jsonify({"success":False})
-            views.gallery_info(model_id, user_name, category_id)
-            return jsonify({"success" : True})
-        except:
+            if views.gallery_info(model_id, user_name, category_id):
+                return jsonify({"success" : True})
+            else:
+                return jsonify({"success" : False})
+        except Exception:
             raise InternalServerError
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
@@ -87,8 +89,9 @@ def getby_emoji(category_no):
     try:
         datas = views.post_gallery_category(category_no) #list형태로 반환
         result = []
-
         num = len(datas)
+        if num == 0:
+            return jsonify({'success' : False})
         if num < 4:
             for n in range(num):
                 video = datas[n]
@@ -100,8 +103,6 @@ def getby_emoji(category_no):
                 video = datas[n]
                 result.append(video.serialize())
         return json.dumps(result)
-    except NoSuchColumnError:
-        raise CategoryNotFound 
     except Exception:
         raise InternalServerError
         

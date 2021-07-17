@@ -46,10 +46,14 @@ def check_overlap(model_name):
 def gallery_info(model_id,model_name,category_no):
     "uploads information for uploading video on gallery"
     post=db.session.query(video_table).filter(video_table.model_id==model_id).first()
+    if post == Null:
+        return False
     post.model_name=model_name
     post.category_no=category_no
     post.model_date=sql.func.now()#str(dt.datetime.now())
     db.session.commit()
+    return True
+
 
 #category_no에 해당하는 영상 list형태로 반환
 def post_gallery_category(category_no):
