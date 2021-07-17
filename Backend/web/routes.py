@@ -6,7 +6,7 @@ from web import views
 from web import app
 from werkzeug.utils import secure_filename
 from web.predictmix import *
-from errors import InternalServerError
+from errors import InternalServerError, API_model_id
 from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
 
@@ -52,14 +52,10 @@ def mixvideo(img_name,file_name):
         'model_id':views.get_model_id(mixedvid)
     })
 
+
 class API_model_id(Exception):
     pass
-@app.errorhandler(500)
-def error(e):
-    return jsonify({
-        "success":False,
-        "message":"Something wrong"
-    })
+
 @app.errorhandler(API_model_id)
 def error2(e):
     return jsonify({
@@ -109,7 +105,7 @@ def return_result(model_id):
                 return jsonify({"success" : True})
             else:
                 return jsonify({"success" : False})
-        except:
+        except Exception:
             raise API_model_id
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
