@@ -52,6 +52,18 @@ def mixvideo(img_name,file_name):
         'model_id':views.get_model_id(mixedvid)
     })
 
+class Custom(Exception):
+    pass
+@app.errorhandler(500)
+def error(e):
+    return jsonify({
+        "mess":"11"
+    })
+@app.errorhandler(Custom)
+def error2(e):
+    return jsonify({
+        "n":1
+    })
 
 @app.route('/api/model/<model_id>', methods = ['GET', 'DELETE', 'PATCH'])
 def return_result(model_id):
@@ -95,8 +107,8 @@ def return_result(model_id):
                 return jsonify({"success" : True})
             else:
                 return jsonify({"success" : False})
-        except Exception:
-            raise InternalServerError
+        except:
+            raise Custom
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
