@@ -77,11 +77,9 @@ def return_result(model_id):
     elif request.method == 'DELETE':
         try:
             views.remove_vid(model_id)
-            if views.get_video_url(model_id) == False:
-                return jsonify({'success' : True})
             return jsonify({'success' : True})
-        except Exception:
-            raise InternalServerError
+        except:
+            abort(500,"there is no model_id in Database")
 
     elif request.method=='PATCH':
         try:
@@ -92,7 +90,7 @@ def return_result(model_id):
                 user_name, category_id = f['model_name'], f['category_no']
             except:
                 return abort(500,"wrong request(there is no model_name or category_no)")
-            views.gallery_info(model_id, user_name, category_id):
+            views.gallery_info(model_id, user_name, category_id)
             return jsonify({"success" : True})
         except:
             abort(500,"there is no model_id in database")
