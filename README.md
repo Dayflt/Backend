@@ -43,7 +43,7 @@ $ .\myenv\Scripts\activate
 ## 🔧 Directory Structure
 ```bash
 ├── Backend/             - 백엔드 플라스크 디렉토리
-    ├── errors.py        - 에러 발생시 
+    ├── test_endpoints.py   - unit test 실행 파일
     ├── run.py             -Flask 실행 위한 파일
     ├── views.py               - SQLAlchamy의 기능을 정의한 파일
     ├── .flaskenv           -Flask 실행을 위한 환경변수 설정 파일
@@ -58,7 +58,7 @@ $ .\myenv\Scripts\activate
          ├── models.py
          ├── prdedictmix.py
          ├── routes.py
-         ├── views.py
+         ├── views.py           -database ORM 정의 파일
          └── static/
                └── swagger.json     -swagger 정의 파일
  ```
