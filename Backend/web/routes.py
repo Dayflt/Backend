@@ -92,12 +92,10 @@ def return_result(model_id):
                 user_name, category_id = f['model_name'], f['category_no']
             except:
                 return abort(500,"wrong request(there is no model_name or category_no)")
-            if views.gallery_info(model_id, user_name, category_id):
-                return jsonify({"success" : True})
-            else:
-                return jsonify({"success" : False})
+            views.gallery_info(model_id, user_name, category_id):
+            return jsonify({"success" : True})
         except:
-            abort(500,"something wrong in database")
+            abort(500,"there is no model_id in database")
 
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
