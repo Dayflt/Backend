@@ -6,7 +6,7 @@ from web import views
 from web import app
 from werkzeug.utils import secure_filename
 from web.predictmix import *
-from errors import InternalServerError, API_model_id
+from errors import InternalServerError
 from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
 
@@ -97,15 +97,11 @@ def return_result(model_id):
             else:
                 return jsonify({"success" : False})
         except:
-            abort(500,"something wrong")
+            abort(500,"something wrong in database")
 
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
-
-    if 0>int(category_no) or int(category_no)>4:
-        abort(500,"wrong category_no. Request is wrong")
-
     try:
         datas = views.post_gallery_category(category_no) #list형태로 반환
         result = []
@@ -123,8 +119,8 @@ def getby_emoji(category_no):
                 video = datas[n]
                 result.append(video.serialize())
         return json.dumps(result)
-    except Exception:
-        raise abort(500)
+    except:
+        abort(500, "something wrong in database")
         
         
 
