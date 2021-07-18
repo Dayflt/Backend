@@ -67,12 +67,9 @@ def return_result(model_id):
     if request.method == 'GET':
         try:
             result_url = views.get_video_url(model_id)
-            if result_url:
-                return jsonify({'success' : True, 'model_result' : result_url})
-            else:
-                return jsonify({'success' :  False, 'model_result': Null})
-        except Exception:
-            raise InternalServerError
+            return jsonify({'success' : True, 'model_result' : result_url})
+        except:
+            abort(500,"there is no model_id in Database")
 
     elif request.method == 'DELETE':
         try:
