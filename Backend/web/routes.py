@@ -102,7 +102,7 @@ def return_result(model_id):
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
-    if category_no>4 or category_no<0:
+    if not 0<int(category_no)<4:
         abort(500,"category_no is wrong")
     try:
         datas = views.post_gallery_category(category_no) #list형태로 반환
@@ -113,18 +113,19 @@ def getby_emoji(category_no):
                 'success' : True,
                 'message':'No values in request category_no'
             })
-        #if num < 4:
-        #    for n in range(num):
-        #        video = datas[n]
-        #        print(video)
-        #        result.append(video.serialize())
-        #else:
-        post_gallery(category_no)
-        for n in range(4):
-            video = datas[n]
-            result.append(video.serialize())
-            print(result)
-        return json.dumps(result)
+        if num < 4:
+            for n in range(num):
+                video = datas[n]
+                result.append(video.serialize())
+        else:
+            post_gallery(category_no)
+            for n in range(4):
+                video = datas[n]
+                result.append(video.serialize())
+        return jsonify({
+            'success':True,
+            'data': result
+        })
     except:
         abort(500, "something wrong in database")
         
