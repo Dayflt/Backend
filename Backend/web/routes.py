@@ -6,9 +6,16 @@ from web import views
 from web import app
 from werkzeug.utils import secure_filename
 from web.predictmix import *
-from errors import InternalServerError
 from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
+
+@app.errorhandler(500)
+def error500(error):
+    return jsonify({
+        'success':False,
+        'message': error.description,
+        'status':500
+    })
 
 @app.route('/')
 def hello():
@@ -21,12 +28,14 @@ def load_file():
 
 @app.route('/api/model', methods = ['POST'])
 def upload_file():
-   if request.method == 'POST':
-      img_name=request.form['image_no']
-      f = request.files['file']
-      f.save(secure_filename(f.filename))
-
-      return mixvideo(img_name, f.filename)
+    if request.method == 'POST':
+        try:
+            img_name=request.form['image_no']
+            f = request.files['file']
+            f.save(secure_filename(f.filename))
+            return mixvideo(img_name, f.filename)
+        except:
+            abort(500,"Something wrong")
 
 # AI모델 결과물 생성
 def mixvideo(img_name,file_name):
@@ -52,16 +61,6 @@ def mixvideo(img_name,file_name):
         'model_id':views.get_model_id(mixedvid)
     })
 
-
-@app.errorhandler(500)
-def error500(error):
-    return jsonify({
-        'success':False,
-        'message': error.description,
-        'status':500
-    })
-
-
 @app.route('/api/model/<model_id>', methods = ['GET', 'DELETE', 'PATCH'])
 def return_result(model_id):
     if request.method == 'GET':
@@ -69,28 +68,28 @@ def return_result(model_id):
             result_url = views.get_video_url(model_id)
             return jsonify({'success' : True, 'model_result' : result_url})
         except:
-            abort(500,"there is no model_id in Database")
+            abort(500,"No model_id in Database")
 
     elif request.method == 'DELETE':
         try:
             views.remove_vid(model_id)
             return jsonify({'success' : True})
         except:
-            abort(500,"there is no model_id in Database")
+            abort(500,"No model_id in Database")
 
     elif request.method=='PATCH':
         try:
             if (request.get_json()==None):
-                abort(500,"there is no request")
+                abort(500,"No request")
             f = request.get_json()
             try:
                 user_name, category_id = f['model_name'], f['category_no']
             except:
-                return abort(500,"wrong request(there is no model_name or category_no)")
+                return abort(500,"Wrong request(there is no model_name or category_no)")
             views.gallery_info(model_id, user_name, category_id)
             return jsonify({"success" : True})
         except:
-            abort(500,"there is no model_id in database")
+            abort(500,"No model_id in database")
 
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
@@ -120,7 +119,7 @@ def getby_emoji(category_no):
             'data': result
         })
     except:
-        abort(500, "something wrong in database")
+        abort(500, "Something wrong in database")
         
         
 
