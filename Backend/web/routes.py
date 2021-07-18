@@ -53,26 +53,12 @@ def mixvideo(img_name,file_name):
     })
 
 
-class API_model_id(Exception):
-    pass
-@app.errorhandler(API_model_id)
-def error(e):
-    return jsonify({
-        "success":False,
-        "message":"문제 발생"
-    })
-@app.errorhandler(API_model_id)
-def error2(e):
-    return jsonify({
-        "success":False,
-        "message":"문제 발생"
-    })
-
 @app.errorhandler(500)
 def error500(error):
     return jsonify({
         'success':False,
-        'message': error.description
+        'message': error.description,
+        'status':500
     })
 
 
@@ -100,20 +86,12 @@ def return_result(model_id):
     elif request.method=='PATCH':
         try:
             if (request.get_json()==None):
-                return jsonify({
-                    "success":False,
-                    "message":"there is no request",
-                    "status":500
-                })
+                abort(500,"there is no request")
             f = request.get_json()
             try:
                 user_name, category_id = f['model_name'], f['category_no']
             except:
-                return jsonify({
-                    "success":False,
-                    "message":"wrong request(there is no model_name or category_no",
-                    "status":500
-                })
+                return abort(500,"wrong request(there is no model_name or category_no)")
             if views.gallery_info(model_id, user_name, category_id):
                 return jsonify({"success" : True})
             else:
@@ -127,11 +105,6 @@ def getby_emoji(category_no):
 
     if 0>int(category_no) or int(category_no)>4:
         abort(500,"wrong category_no. Request is wrong")
-        #return jsonify({
-        #    "success": False,
-        #    "message": "wrong category_no",
-        #    "status":500
-        #})
 
     try:
         datas = views.post_gallery_category(category_no) #list형태로 반환
