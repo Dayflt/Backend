@@ -24,13 +24,21 @@ $ .\myenv\Scripts\activate
 ```
 + Install requirements.txt
 ```
-(myenv) $ pip install -r requirements.txt #install requirements
+(myenv) $ pip install -r requirements.txt 
 ```
 + If you want to deactivate
 ```
 (myenv) $ deactivate
 ```
 ### 5. Make Database
+
++ Database setting
++ Change Backend_repo/Backend/web/config.py
+```
+2 PORT= '(Enter your PORT)'
+3 USERNAME='(Enter your USERNAME)'
+4 PASSWORD='(Enter your PASSWORD)'
+```
 + Create new database
 ```
 (myenv) $ python run.py create_db
