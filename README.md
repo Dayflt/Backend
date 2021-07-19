@@ -50,8 +50,14 @@ $ .\myenv\Scripts\activate
 (myenv) $ python run.py run
 ```
 
+
 ## 📗 SWAGGER
 ![20210717_195035](https://user-images.githubusercontent.com/79822913/126034610-20bff471-7e80-48c8-88f8-c30e28dfd37d.png)
+## 🧾 PYTEST
+```
+(myenv) $ pytest -p no:warnings -vv
+
+```
 
 ## 🔧 Directory Structure
 ```bash
