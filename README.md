@@ -22,8 +22,9 @@ $ virtualenv myenv # make virtual environment
 ```
 $ .\myenv\Scripts\activate
 ```
-+ Install requirements.txt
++ Go back to Backend directory and install requirements.txt
 ```
+(myenv) $ cd ../../
 (myenv) $ pip install -r requirements.txt 
 ```
 + If you want to deactivate
