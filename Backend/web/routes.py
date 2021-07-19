@@ -94,7 +94,7 @@ def return_result(model_id):
 
 @app.route('/api/model/gallery/<category_no>', methods = ['GET'])
 def getby_emoji(category_no):
-    if not 0<int(category_no)<4:
+    if not 0<int(category_no)<5:
         abort(500,"category_no is wrong")
     try:
         datas = views.post_gallery_category(category_no) #list형태로 반환
@@ -103,7 +103,8 @@ def getby_emoji(category_no):
         if num == 0:
             return jsonify({
                 'success' : True,
-                'message':'No values in request category_no'
+                'message':'No values in request category_no',
+                'data': result
             })
         if num < 4:
             for n in range(num):
