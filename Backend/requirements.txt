@@ -71,3 +71,4 @@ pyrsistent==0.18.0
 flask-swagger-ui==3.36.0
 flask_cors==3.0.10
 python-dotenv==0.18.0
+pytest==6.2.4

@@ -79,4 +79,3 @@ def post_gallery(category_no):
     if len(result)>DISPLAY_VIDEO:
         for i in result[DISPLAY_VIDEO:]:
             gallery_remove_oldvid(i)
-
