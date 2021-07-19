@@ -3,38 +3,12 @@
     "info": {
       "title": "DAYFLY API for video synthesize",
       "description": "synthesize images and videos.",
-      "version": "1.0.0"
+      "version": "1-oas3"
     },
     "servers": [
       {
         "url": "http://127.0.0.1:5000",
         "description": "My API"
-      }
-    ],
-    "tags": [
-      {
-        "name": "model_id",
-        "description": "model_id primary key"
-      },
-      {
-        "name": "image_no",
-        "description": "user select image"
-      },
-      {
-        "name": "model_result",
-        "description": "model url(in gcp)"
-      },
-      {
-        "name": "model_name",
-        "description": "user's nickname"
-      },
-      {
-        "name": "category_no",
-        "description": "display it to gallery"
-      },
-      {
-        "name": "model_date",
-        "description": "generate date"
       }
     ],
     "paths": {
@@ -82,7 +56,8 @@
                     "type": "object",
                     "properties": {
                       "success": {
-                        "type": "boolean"
+                        "type": "boolean",
+                        "example": true
                       },
                       "model_id": {
                         "type": "integer",
@@ -93,8 +68,29 @@
                 }
               }
             },
-            "404": {
-              "description": "Video generation failed"
+            "500": {
+              "description": "Unexpected error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Something wrong"
+                      },
+                      "status": {
+                        "type": "integer",
+                        "example": 500
+                      }
+                    }
+                  }
+                }
+              }
             },
             "default": {
               "description": "Unexpected error"
@@ -125,6 +121,10 @@
                   "schema": {
                     "type": "object",
                     "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
+                      },
                       "model_result": {
                         "type": "string"
                       }
@@ -133,11 +133,29 @@
                 }
               }
             },
-            "400": {
-              "description": "this specified model_id is invalid(not a num)"
-            },
             "500": {
-              "description": "this specified model_id was not found"
+              "description": "Unexpected error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "No model_id in Database"
+                      },
+                      "status": {
+                        "type": "integer",
+                        "example": 500
+                      }
+                    }
+                  }
+                }
+              }
             },
             "default": {
               "description": "Unexpected error"
@@ -167,7 +185,8 @@
                     "type": "object",
                     "properties": {
                       "success": {
-                        "type": "boolean"
+                        "type": "boolean",
+                        "example": true
                       }
                     }
                   }
@@ -175,7 +194,28 @@
               }
             },
             "500": {
-              "description": "Sorry! Something went wrong"
+              "description": "Falied to delete the mixed-video",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "No model_id in Database"
+                      },
+                      "status": {
+                        "type": "integer",
+                        "example": 500
+                      }
+                    }
+                  }
+                }
+              }
             },
             "default": {
               "description": "Unexpected error"
@@ -224,7 +264,8 @@
                     "type": "object",
                     "properties": {
                       "success": {
-                        "type": "boolean"
+                        "type": "boolean",
+                        "example": true
                       }
                     }
                   }
@@ -232,7 +273,28 @@
               }
             },
             "500": {
-              "description": "Sorry! Something went wrong"
+              "description": "No model_id in Database",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "No model_id in Database"
+                      },
+                      "status": {
+                        "type": "integer",
+                        "example": 500
+                      }
+                    }
+                  }
+                }
+              }
             },
             "default": {
               "description": "unexpected error"
@@ -263,28 +325,50 @@
                   "schema": {
                     "type": "object",
                     "properties": {
-                      "model_id": {
-                        "type": "integer"
+                      "success": {
+                        "type": "boolean"
                       },
-                      "model_name": {
-                        "type": "string"
-                      },
-                      "image_no": {
-                        "type": "integer"
-                      },
-                      "category_no": {
-                        "type": "integer"
-                      },
-                      "model_date": {
-                        "type": "string"
+                      "data": {
+                        "type": "object",
+                        "example": [
+                          {
+                            "category_no": 1,
+                            "image_no": 1,
+                            "model_date": "date",
+                            "model_id": 1,
+                            "model_name": "string",
+                            "model_result": "string"
+                          }
+                        ]
                       }
                     }
                   }
                 }
               }
             },
-            "401": {
-              "description": "The requested category_no does not exist"
+            "500": {
+              "description": "Something wrong in database",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "success": {
+                        "type": "boolean",
+                        "example": false
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Something wrong in database"
+                      },
+                      "status": {
+                        "type": "integer",
+                        "example": 500
+                      }
+                    }
+                  }
+                }
+              }
             },
             "default": {
               "description": "unexpected error"
