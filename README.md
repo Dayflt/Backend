@@ -30,8 +30,13 @@ $ .\myenv\Scripts\activate
 ```
 (myenv) $ deactivate
 ```
+### 5. Make Database
++ Create new database
+```
+(myenv) $ python run.py create_db
+```
 
-### 4. RUN
+### 6. RUN
 + Run Flask
 ```
 (myenv) $ python run.py run
