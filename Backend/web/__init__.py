@@ -4,16 +4,13 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
-import errors as errors
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_cors import CORS,cross_origin
 
 app = Flask(__name__)
 cors = CORS(app,resources={r"*": {"origins": "*"}},supports_credentials=True)
-api = Api(app, errors = errors)
 app.config.from_pyfile('config.py')
 db=SQLAlchemy(app)
-
 SWAGGER_URL='/swagger'
 API_URL='/static/swagger.json'
 SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
