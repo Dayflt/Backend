@@ -1,14 +1,16 @@
 import pytest, json
 from web import config # config 파일을 불러와서 테스트 설정들을 읽어들이도록 함
 from web import app
+
 from web.models import video_table
 import random, sqlalchemy
 
 from sqlalchemy import create_engine, text
 
 # 새로운 데이터베이스를 생성
-database = create_engine(config.test_config['DB_URL'], encoding = 'utf-8', max_overflow = 0)
-database.connect()
+db = create_engine(config.test_config['DB_URL'], encoding = 'utf-8', max_overflow = 0)
+db.connect()
+
 #database=SQLAlchemy(app)
 #app.config.from_pyfile('config.py')
 
@@ -32,7 +34,7 @@ def setup_function(): # test 전에 바로 적용
                 'model_date': f"2021-07-0{i+1} 16:12:07.822257+09"
                 }
             
-            database.execute(text
+            db.execute(text
             ("""INSERT INTO video_info(model_result, image_no, model_name, category_no, model_date)
             VALUES (:model_result, :image_no, :model_name, :category_no, :model_date)
             """), mixed_video)
@@ -44,15 +46,15 @@ def setup_function(): # test 전에 바로 적용
             'category_no': 1,
             'model_date':  "2021-07-01 16:12:07.822257+09"
         }
-        database.execute(text
+        db.execute(text
             ("""INSERT INTO video_info(model_result, image_no, model_name, category_no, model_date)
             VALUES (:model_result, :image_no, :model_name, :category_no, :model_date)
             """), mixed_video)
     
 def tear_down_function(): # test 후에 바로 적용
-    database.execute(text("SET FOREIGN_KEY_CHECKS=0"))
-    database.execute(text("TRUNCATE video_table"))
-    database.execute(text("SET FOREIGN_KEY_CHECKS=1"))
+    db.execute(text("SET FOREIGN_KEY_CHECKS=0"))
+    db.execute(text("TRUNCATE video_table"))
+    db.execute(text("SET FOREIGN_KEY_CHECKS=1"))
         
 
 
@@ -66,13 +68,13 @@ def test_return_result_post(api):
         'file' : 'Received',
         'model_result' : "https://storage.googleapis.com/dayfly-bucket/testvid123456mixed.mp4"}),
         content_type = 'application/json')
-    assert response.status_code == 400
+    assert response.status_code == 200
 
     response = api.post('/api/model/217',
                         data = json.dumps({"success" : True}),
                         content_type = 'application/json')
 
-    assert response.status_code == 200
+    assert response.status_code == 405
     
 
 
@@ -86,7 +88,7 @@ def test_return_result_post(api):
 def test_return_result_get(api):
     # response로 GET형태의 HTTP에 대해서 반환해줄 return할 json 데이터   
     response = api.get(f'api/model/103')
-    video_url = json.loads(response.data.decode('utf-8'))['model_result']
+    video_url = json.loads(response.form.decode('utf-8'))['model_result']
 
     assert response.status_code == 200
     assert video_url == "https://storage.googleapis.com/dayfly-bucket/testvid1234mixed.mp4"
