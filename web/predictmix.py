@@ -42,11 +42,11 @@ def generate(config_path, cp_path , source_img, driving_video):
     driving_video = [resize(frame, (256, 256)) for frame in driving_video]
 
     # load model
-    model_gen, model_kp = load_checkpoints(config_path, cp_path, cpu = True)
+    model_gen, model_kp = load_checkpoints(config_path, cp_path, cpu = False)
     
     # numpy array 형태로 영상 반환
     vid = make_animation(source_img, driving_video, 
-        generator = model_gen, kp_detector = model_kp, relative = True, adapt_movement_scale = True, cpu = True)
+        generator = model_gen, kp_detector = model_kp, relative = True, adapt_movement_scale = True, cpu = False)
     vid = [img_as_ubyte(frame) for frame in vid]
     # numpy array -> mp4
 
