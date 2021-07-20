@@ -56,7 +56,10 @@ $ .\myenv\Scripts\activate
 ![20210717_195035](https://user-images.githubusercontent.com/79822913/126034610-20bff471-7e80-48c8-88f8-c30e28dfd37d.png)
 ## 🧾 PYTEST
 ```
-(myenv) $ pytest -p no:warnings -vv
+(myenv) $ python run.py create_db
+(myenv) $ flask run
+# open another terminal
+(myenv) $ pytest
 ```
 
 ## 🔧 Directory Structure
