@@ -6,10 +6,10 @@
 $ git clone https://github.com/Dayflt/Backend.git
 ```
 ### 2. Download file
-- Download *vox-cpk.pth.tar* [here](https://drive.google.com/drive/folders/1PyQJmkdCsAkOYwUyaj_l-l0as-iLDgeH) and add it inside Docker\Backend\web\AI\ after changing its name with *mraa.tar*
+- Download *vox-cpk.pth.tar* [here](https://drive.google.com/drive/folders/1PyQJmkdCsAkOYwUyaj_l-l0as-iLDgeH) and add it inside Backend\web\AI\ after changing its name with *mraa.tar*
 
 ### 3. Make Virtual Environment & Download Requirements
-+ Go to *Backend/Backend* directory
++ Go to *Backend/* directory
 ```
 cd Backend
 ```
@@ -34,7 +34,7 @@ $ .\myenv\Scripts\activate
 ### 5. Make Database
 
 + Database setting
-+ Change Backend/Backend/web/config.py
++ Change Backend/web/config.py
 ```
 2 PORT= '(Enter your PORT)'
 3 USERNAME='(Enter your USERNAME)'
