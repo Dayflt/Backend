@@ -1,7 +1,7 @@
 from web import app
-PORT= '5433'
+PORT= '5432'
 USERNAME = 'postgres'
-PASSWORD = 'sylucy12'
+PASSWORD = '1111'
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SECRET_KEY='thisisfirstflaskapp'
