@@ -56,7 +56,7 @@ $ .\myenv\Scripts\activate
 
 + https://app.swaggerhub.com/apis/harloxx/WeirdMuseum/1-oas3  
 
-+ Enter *localhost:5000/swagger* after Flask run 
++ Enter *localhost:5000/swagger* after Flask run   
 ![20210717_195035](https://user-images.githubusercontent.com/79822913/126034610-20bff471-7e80-48c8-88f8-c30e28dfd37d.png)
 ## 🧾 PYTEST
 ```
